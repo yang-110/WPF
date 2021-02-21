@@ -1,0 +1,9 @@
+
+1、UI层与逻辑层要尽可能地剥离（解耦）。
+2、Routed Event和Command比Event的耦合度要低。
+3、UI层与逻辑层的“血管”是数据关联（Data Binding）。
+4、尽量不要试图通过UI层去拿数据或者操作数据，而是直接去操作数据源。例如：
+    1、想对一个TreeView里的结点排序，不应该是对TreeViewItem排序，而是应该对TreeView的DataSource排序
+    2、TreeView的Item是CheckBox，想把这些CheckBox认为选中，不应该从UI下手，而是把与CheckBox相关联的数据设为true
+    3、想得到ListView（内嵌GridView）中的数据，不要使用VisualTree去找来找去，而是应该去访问ListView的DataSource
+5、数据关联的核心思想是：数据决定UI。UI的作用是Update数据。比起Windows Form，WPF的UI作用淡化了很多。
