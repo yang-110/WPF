@@ -1,0 +1,50 @@
+In this post I will try to illustrate the difference between DataContext and ItemsSource property in Silverlight/WPF. These two properties don't serve the same purpose.
+
+DataContext expects an object type where ItemsSource expects IEnumerable type objects.
+
+DataContext is a dependency property is exposed by FrameworkElement base class,where as ItemsSource is defined by the ItemsControl class. All the descendants of FrameworkElement can utilize the DataContext property and set an object to its value. But we can only set a type of IEnumerable(or instance of class that derives from).
+ 
+DataContext does not generate template, it only used to hold common data for other controls to bind. In terms of ItemsSource property, it is mainly used to generate template regardless of you set it in XAML or in the code behind.
+ 
+DataContext is mainly used to hold common data that other child want to share. Thus it can be inherited by other child elements without problem. But for ItemsSource, it not used to share data in the visual tree. It is only valid for the element that defined. There is still one thing to be noted is that the child element can override the DataContext of the perent DataContext no mater directly or indirectly.
+
+
+
+Examples:
+
+Suppose we have a Person Class which has a property Name. Now in Xaml we can say like:
+
+<StackPanel x:Name="Parent">
+<StackPanel.Resources>
+<local:Person x:Key="person">
+</StackPanel.Resources>
+<ListBox ItemsSource="{Binding Source={StaticResource person}}">
+<ListBox.ItemTemplate>
+<DataTemplate>
+<TextBox Text="{Binding Path=Name}"/>
+</DataTemplate>
+</ListBox.ItemTemplate>
+</ListBox>
+</StackPanel>
+
+If you run this code in the ListBox you will get to see values depending on List<Person> object. But if we change the ItemsSource to DataContext then you will be not able to see anything because DataContext doesn't generate templates in any cases. If you set datacontext still you have to set the ItemsSource property like this:
+
+<ListBox DataContext="{Binding Source={StaticResource person}}" ItemsSource="{Binding}">
+
+Conclusion:
+
+In a word, if we have several child elements that will share a common data source, we can set DataContext property for the parent elements. And we use ItemsSource for ItemsSource in most cased to generate template. Like:
+
+<StackPanel DataContext="{Binding Person"}>
+<TextBox Text="{Binding FName}"/>
+<TextBox Text="{Binding LName}"/>
+</StackPanel>
+
+引自：https://www.c-sharpcorner.com/uploadfile/tirthacs/difference-between-datacontext-and-itemssource-in-wpfsilverlight/
+
+
+
+
+
+
+
