@@ -1,0 +1,5 @@
+MVVMLight生成报错
+
+用NuGet下MVVMLight发现一下下来就是有错的，生成报错。
+这里有个坑，从NuGet下载安装MVVMLight后在解决方案管理器里工程ViewModel下的ViewModelLocator中删除using Microsoft.Practices.ServiceLocation改成using CommonServiceLocator，
+这里MVVMLight封装有问题，可能是Bug，之后生成就没问题了
